@@ -11,6 +11,11 @@
 
 @using (Html.BeginForm("Register", "Authentication", FormMethod.Post))
 {
+    if (Model != null && !string.IsNullOrWhiteSpace(Model.ValidationError))
+    {
+        <red>@Model.ValidationError</red>
+    }
+
     @Html.TextBox("EmailAddress", null, new { @class = "form-control", placeholder = "enter user name" })
 
     <input type="submit" value="Add" />

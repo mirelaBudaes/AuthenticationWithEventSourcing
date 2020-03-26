@@ -20,6 +20,7 @@ namespace Authentication.SqlStore.Models
 
         public bool EmailIsVerified { get; set; }
 
-        //todo: CreatedDate and ModifiedDate
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
     }
 }

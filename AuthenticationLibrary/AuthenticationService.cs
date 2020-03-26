@@ -4,6 +4,7 @@ using System.Linq;
 using Authentication.Query;
 using Authentication.Command;
 using Authentication.EventStore.Models;
+using Authentication.Library.Exceptions;
 using Authentication.SqlStore.Models;
 
 namespace Authentication.Library
@@ -35,7 +36,7 @@ namespace Authentication.Library
                 //todo: create an event here also
                 _eventSourceManager.Log(EventAction.EmailUniqueValidationFailed, emailAddress);
 
-                throw new Exception($"User {emailAddress} already exists");
+                throw new EmailExistsException();
             }
 
             _eventSourceManager.Log(EventAction.UserRegistered, emailAddress);

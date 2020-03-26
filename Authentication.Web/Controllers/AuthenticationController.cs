@@ -1,4 +1,6 @@
 ﻿using Authentication.Library;
+using Authentication.Library.Exceptions;
+using Authentication.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Web.Controllers
@@ -18,15 +20,30 @@ namespace Authentication.Web.Controllers
             return View();
         }
 
+        public IActionResult Register(RegisterViewModel viewModel)
+        {
+            return View(viewModel);
+        }
+
         [HttpPost]
         public IActionResult Register(string emailAddress)
         {
             //todo: email address validation
-            _authenticationService.RegisterUser(emailAddress);
+
+            try
+            {
+                _authenticationService.RegisterUser(emailAddress);
+            }
+            catch (EmailExistsException e)
+            {
+                return Register(new RegisterViewModel()
+                {
+                    EmailAddress = emailAddress,
+                    ValidationError = $"User {emailAddress} already exists"
+                });
+            }
 
             return RedirectToAction("Register");
         }
-
-
     }
 }

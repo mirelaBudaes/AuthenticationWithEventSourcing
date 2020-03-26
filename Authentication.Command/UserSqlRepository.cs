@@ -51,13 +51,18 @@ namespace Authentication.Command
             var insertCommand = $@"
 
                 INSERT INTO [dbo].[Users]
-                               ([UserId]
-                               ,[Email]
-                                , [EmailIsVerified])
+                               ([UserId],
+                                [Email],
+                                [EmailIsVerified],
+                                [CreatedDate],
+                                [LastUpdatedDate]
+)
                 VALUES(
                     @UserId,
                     @Email,
-                    @EmailIsVerified
+                    @EmailIsVerified,
+                    @CreatedDate,
+                    @LastUpdatedDate
                     )";
 
             using (IDbConnection db = GetConnection())
@@ -71,7 +76,8 @@ namespace Authentication.Command
             var updateCommand = $@"
                 UPDATE [dbo].[Users]
                 SET Email = @Email,
-                    EmailIsVerified = @EmailIsVerified
+                    EmailIsVerified = @EmailIsVerified,
+                    LastUpdatedDate = @LastUpdatedDate
                 WHERE UserId = @UserId";
 
             using (IDbConnection db = GetConnection())

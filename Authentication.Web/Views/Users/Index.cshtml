@@ -8,6 +8,7 @@
 <h1>Users</h1>
 
 <h2>Last added events</h2>
+<!--Yes, I know it's very oldskool to use tables, but the purpose of the exercise was not html-->
 <table>
     <tr>
         <th>Email</th>
@@ -31,13 +32,17 @@
     <tr>
         <th>Email</th>
         <th>Email is verified</th>
+        <th>Created date</th>
+        <th>Last updated date</th>
     </tr>
-    @foreach (var authenticationEvent in Model.Users)
+    @foreach (var user in Model.Users)
     {
         <tr>
             @*<td>@authenticationEvent.UserId</td>*@
-            <td>@authenticationEvent.Email</td>
-            <td>@authenticationEvent.EmailIsVerified</td>
+            <td>@user.Email</td>
+            <td>@user.EmailIsVerified</td>
+            <td>@user.CreatedDate</td>
+            <td>@user.LastUpdatedDate</td>
             @*<td>@authenticationEvent.Id</td>*@
         </tr>
     }

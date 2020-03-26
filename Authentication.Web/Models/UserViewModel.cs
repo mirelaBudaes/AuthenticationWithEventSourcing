@@ -10,5 +10,8 @@ namespace Authentication.Web.Models
         public string Email { get; set; }
 
         public bool EmailIsVerified { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
     }
 }

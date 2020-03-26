@@ -8,5 +8,6 @@ namespace Authentication.Web.Models
     public class RegisterViewModel
     {
         public string EmailAddress { get; set; }
+        public string ValidationError { get; set; }
     }
 }

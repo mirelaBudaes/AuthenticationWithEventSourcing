@@ -41,7 +41,8 @@ namespace Authentication.Query
                 var parameters = new { MaxLimit = topX };
 
                 var users = db.Query<User>(
-                    @"Select TOP {=MaxLimit} * From Users",
+                    @"Select TOP {=MaxLimit} * From Users
+                        ORDER BY LastUpdatedDate DESC",
                     parameters
                 ).ToList();
 

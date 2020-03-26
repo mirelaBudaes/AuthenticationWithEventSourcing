@@ -41,7 +41,9 @@ namespace Authentication.Web.Mappers
             return new UserViewModel()
             {
                 Email = user.Email,
-                EmailIsVerified = user.EmailIsVerified
+                EmailIsVerified = user.EmailIsVerified,
+                CreatedDate = user.CreatedDate,
+                LastUpdatedDate = user.LastUpdatedDate
             };
         }
     }

@@ -44,9 +44,14 @@ namespace Authentication.Command
 
             //// Sync up with read model
             var user = Replay(userId);
-            _userSyncronizer.Save(user);
+
+            if (whatHappened != EventAction.EmailUniqueValidationFailed)
+            {
+                _userSyncronizer.Save(user);
+            }
         }
 
+        //todo: move to Syncronizer
         public User Replay(Guid userId)
         {
             var allEvents = _eventRepository.All(userId);
@@ -61,28 +66,20 @@ namespace Authentication.Command
                 {
                     case EventAction.UserRegistered:
                         user = new User(e.UserId, e.UserInfo.Email, e.UserInfo.EmailIsVerified);
+                        user.CreatedDate = e.TimeStamp;
+                        user.LastUpdatedDate = e.TimeStamp;
                         break;
-                        //case EventType.Start:
-                        //    user.Start();
-                        //    break;
-                        //case EventType.End:
-                        //    user.Finish();
-                        //    break;
-                        //case EventType.NewPeriod:
-                        //    user.StartPeriod();
-                        //    break;
-                        //case EventType.EndPeriod:
-                        //    user.EndPeriod();
-                        //    break;
-                        //case EventType.Goal1:
-                        //    user.Goal(TeamId.Home);        // Should add player reference too
-                        //    break;
-                        //case EventType.Goal2:
-                        //    user.Goal(TeamId.Visitors);    // Should add player reference too
-                        //    break;
-                        //case EventType.Timeout1:
-                        //    user.Timeout(TeamId.Home);
-                        //    break;
+                    case EventAction.EmailUniqueValidationFailed:
+                        break;
+                    case EventAction.EmailVerified:
+                        user = new User(e.UserId, e.UserInfo.Email, e.UserInfo.EmailIsVerified);
+                        user.LastUpdatedDate = e.TimeStamp;
+                        break;
+                    case EventAction.EmailChanged:
+                        user = new User(e.UserId, e.UserInfo.Email, false);
+                        user.LastUpdatedDate = e.TimeStamp;
+                        break;
+                       
                 }
             }
             return user;
