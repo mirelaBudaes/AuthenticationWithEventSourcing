@@ -1,0 +1,18 @@
+﻿@using System.Text.Encodings.Web
+
+@model Authentication.Web.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Register</h1>
+
+@using (Html.BeginForm("Register", "Authentication", FormMethod.Post))
+{
+    @Html.TextBox("EmailAddress", null, new { @class = "form-control", placeholder = "enter user name" })
+
+    <input type="submit" value="Add" />
+}
+

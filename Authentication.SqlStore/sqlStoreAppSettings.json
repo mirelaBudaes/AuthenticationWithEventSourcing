@@ -1,0 +1,4 @@
+{
+
+  "UsersSqlDbConnection": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Work\\Opdrachten\\Registration\\Registration\\Authentication.SqlStore\\Users.mdf;Integrated Security=True"
+}
