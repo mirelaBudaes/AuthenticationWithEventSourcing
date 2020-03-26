@@ -26,5 +26,7 @@ namespace Authentication.Web.Controllers
 
             return RedirectToAction("Register");
         }
+
+
     }
 }

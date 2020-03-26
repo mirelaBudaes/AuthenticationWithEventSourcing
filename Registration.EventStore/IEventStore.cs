@@ -8,6 +8,8 @@ namespace Authentication.EventStore
     {
         List<AuthenticationEvent> GetAll();
 
+        List<AuthenticationEvent> GetAll(int topX);
+
         List<AuthenticationEvent> GetAll(Guid aggregateId);
 
         void Save(AuthenticationEvent newEvent);

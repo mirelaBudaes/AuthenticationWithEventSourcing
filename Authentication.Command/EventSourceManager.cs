@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Authentication.EventStore;
 using Authentication.EventStore.Models;
 using Authentication.SqlStore.Models;
@@ -8,6 +10,8 @@ namespace Authentication.Command
     public interface IEventSourceManager
     {
         void Log(EventAction whatHappened, string emailAddresss);
+
+        IEnumerable<AuthenticationEvent> GetEvents(int topX);
     }
 
     internal class EventSourceManager : IEventSourceManager
@@ -28,6 +32,11 @@ namespace Authentication.Command
 
         }
 
+        public IEnumerable<AuthenticationEvent> GetEvents(int topX)
+        {
+            return _eventRepository.GetLastEvents(topX);
+        }
+
         public void Log(EventAction whatHappened, string emailAddresss, Guid userId)
         {
             var authenticationEvent = EventBuilder.New(whatHappened, emailAddresss, userId);
@@ -41,7 +50,7 @@ namespace Authentication.Command
         public User Replay(Guid userId)
         {
             var allEvents = _eventRepository.All(userId);
-            if (allEvents.Count == 0)
+            if (!allEvents.Any())
                 return null;
 
             var user = new User();

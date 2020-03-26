@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Authentication.Library.DependencyInjection;
+using Authentication.Web.Mappers;
 
 namespace Authentication.Web
 {
@@ -26,6 +27,8 @@ namespace Authentication.Web
         {
             services.AddControllersWithViews();
             services.AddAuthenticationLibrary();
+
+            services.AddTransient<UsersViewModelMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +55,7 @@ namespace Authentication.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Users}/{action=Index}/{id?}");
             });
         }
     }

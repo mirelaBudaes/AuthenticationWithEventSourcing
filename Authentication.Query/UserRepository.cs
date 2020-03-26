@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Authentication.SqlStore.Configuration;
 using Dapper;
 using System.Data;
@@ -33,68 +34,21 @@ namespace Authentication.Query
             }
         }
 
-        internal User FindById(Guid userId)
+        public List<User> GetLastUpdatedUsers(int topX)
         {
             using (IDbConnection db = GetConnection())
             {
-                var parameters = new { UserId = userId };
+                var parameters = new { MaxLimit = topX };
 
                 var users = db.Query<User>(
-                    @"Select * From Users 
-                        Where UserId = @userId",
+                    @"Select TOP {=MaxLimit} * From Users",
                     parameters
                 ).ToList();
 
-                return users.FirstOrDefault();
+                return users;
             }
         }
 
-        public void Save(User user)
-        {
-            var existing = FindById(user.UserId);
-            if (existing == null)
-            {
-                InsertUser(user);
-            }
-            else
-            {
-                UpdateUser(user);
-            }
-        }
-
-        private void InsertUser(User user)
-        {
-            var insertCommand = $@"
-
-                INSERT INTO [dbo].[Users]
-                               ([UserId]
-                               ,[Email]
-                                , [EmailIsVerified])
-                VALUES(
-                    @UserId,
-                    @Email,
-                    @EmailIsVerified
-                    )";
-
-            using (IDbConnection db = GetConnection())
-            {
-                db.Execute(insertCommand, user);
-            }
-        }
-
-        private void UpdateUser(User changedUser)
-        {
-            var updateCommand = $@"
-                UPDATE [dbo].[Users]
-                SET Email = @Email,
-                    EmailIsVerified = @EmailIsVerified
-                WHERE UserId = @UserId";
-
-            using (IDbConnection db = GetConnection())
-            {
-                db.Execute(updateCommand, changedUser);
-            }
-        }
 
         private SqlConnection GetConnection()
         {

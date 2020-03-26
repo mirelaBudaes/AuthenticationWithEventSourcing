@@ -17,6 +17,11 @@ namespace Authentication.EventStore
             return _eventDb.GetAll();
         }
 
+        public IList<AuthenticationEvent> GetLastEvents(int topX)
+        {
+            return _eventDb.GetAll(topX);
+        }
+
         public IList<AuthenticationEvent> All(Guid aggregateId)
         {
             return _eventDb.GetAll(aggregateId);

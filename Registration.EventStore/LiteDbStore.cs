@@ -26,6 +26,19 @@ namespace Authentication.EventStore
             }
         }
 
+        public List<AuthenticationEvent> GetAll(int topX)
+        {
+            using (var db = new LiteDatabase(_databaseConnectionStrings.LiteDbConnection()))
+            {
+                var col = db.GetCollection<AuthenticationEvent>("UserEvents")
+                    .Query()
+                    .OrderBy(x => x.TimeStamp)
+                    .Limit(topX);
+
+                return col.ToList();
+            }
+        }
+
         public List<AuthenticationEvent> GetAll(Guid aggregateId)
         {
             using (var db = new LiteDatabase(_databaseConnectionStrings.LiteDbConnection()))

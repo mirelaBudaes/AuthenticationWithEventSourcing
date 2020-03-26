@@ -1,0 +1,47 @@
+﻿@model UsersViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Users</h1>
+
+<h2>Last added events</h2>
+<table>
+    <tr>
+        <th>Email</th>
+        <th>Action</th>
+        <th>Time</th>
+    </tr>
+    @foreach (var authenticationEvent in Model.AuthenticationEvents)
+    {
+        <tr>
+            @*<td>@authenticationEvent.UserId</td>*@
+            <td>@authenticationEvent.UserInfo.Email</td>
+            <td>@authenticationEvent.EventAction</td>
+            @*<td>@authenticationEvent.Id</td>*@
+            <td>@authenticationEvent.TimeStamp</td>
+        </tr>
+    }
+</table>
+
+<h2>Last added users</h2>
+<table>
+    <tr>
+        <th>Email</th>
+        <th>Email is verified</th>
+    </tr>
+    @foreach (var authenticationEvent in Model.Users)
+    {
+        <tr>
+            @*<td>@authenticationEvent.UserId</td>*@
+            <td>@authenticationEvent.Email</td>
+            <td>@authenticationEvent.EmailIsVerified</td>
+            @*<td>@authenticationEvent.Id</td>*@
+        </tr>
+    }
+</table>
+
+
+

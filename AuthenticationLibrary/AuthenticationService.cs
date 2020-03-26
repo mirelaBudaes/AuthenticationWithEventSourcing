@@ -1,13 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Authentication.Query;
 using Authentication.Command;
 using Authentication.EventStore.Models;
+using Authentication.SqlStore.Models;
 
 namespace Authentication.Library
 {
     public interface IAuthenticationService
     {
         void RegisterUser(string emailAddress);
+
+        IList<AuthenticationEvent> GetLastEvents(int topX);
+
+        IList<User> GetLastUpdatedUsers(int topX);
     }
 
     internal class AuthenticationService : IAuthenticationService
@@ -35,6 +42,18 @@ namespace Authentication.Library
 
 
             //var registerUserCommand = new RegisterUserCommand();
+        }
+
+        public IList<AuthenticationEvent> GetLastEvents(int topX)
+        {
+            return _eventSourceManager.GetEvents(topX)
+                .OrderByDescending(x=> x.TimeStamp)
+                .ToList();
+        }
+
+        public IList<User> GetLastUpdatedUsers(int topX)
+        {
+            return _userRepository.GetLastUpdatedUsers(topX);
         }
     }
 }

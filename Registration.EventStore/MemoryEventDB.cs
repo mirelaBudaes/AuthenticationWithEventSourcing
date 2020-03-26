@@ -28,6 +28,11 @@ namespace Authentication.EventStore
                 .ToList();
         }
 
+        public List<AuthenticationEvent> GetAll(int topX)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<AuthenticationEvent> GetAll(Guid aggregateId)
         {
             return _events

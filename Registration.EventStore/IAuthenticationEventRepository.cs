@@ -10,5 +10,7 @@ namespace Authentication.EventStore
         IList<AuthenticationEvent> All(Guid aggregateId);
 
         IList<AuthenticationEvent> All();
+
+        IList<AuthenticationEvent> GetLastEvents(int topX);
     }
 }
