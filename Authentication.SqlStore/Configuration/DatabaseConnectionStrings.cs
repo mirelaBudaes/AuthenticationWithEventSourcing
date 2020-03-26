@@ -6,9 +6,7 @@
         {
             var setting = ConfigHelper.GetConfig();
 
-            var connectionstring = setting["UsersSqlDbConnection"];
-
-            return connectionstring;
+            return setting["UsersSqlDbConnection"];
         }
     }
 }

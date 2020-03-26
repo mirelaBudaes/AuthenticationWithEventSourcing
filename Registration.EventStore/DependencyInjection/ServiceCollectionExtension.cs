@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Authentication.EventStore.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Authentication.EventStore.DependencyInjection
 {
@@ -8,6 +9,7 @@ namespace Authentication.EventStore.DependencyInjection
         {
             services.AddTransient<IAuthenticationEventRepository, AuthenticationEventRepository>();
 
+            services.AddSingleton<DatabaseConnectionStrings>();
             //services.AddSingleton<MemoryEventDb>();
             services.AddTransient<IEventStore, LiteDbStore>();
 

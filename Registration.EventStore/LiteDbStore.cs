@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Authentication.EventStore.Configuration;
 using Authentication.EventStore.Models;
 using LiteDB;
 
@@ -9,20 +9,16 @@ namespace Authentication.EventStore
 {
     internal class LiteDbStore : IEventStore
     {
-        private string _connectionStrong = @"C:\Work\Opdrachten\Registration\Registration\\LiteUsers.db";
+        private readonly DatabaseConnectionStrings _databaseConnectionStrings;
 
-        public LiteDbStore()
+        public LiteDbStore(DatabaseConnectionStrings databaseConnectionStrings)
         {
-
+            _databaseConnectionStrings = databaseConnectionStrings;
         }
-        public void X()
-        {
-
-        }
-
+      
         public List<AuthenticationEvent> GetAll()
         {
-            using (var db = new LiteDatabase(_connectionStrong))
+            using (var db = new LiteDatabase(_databaseConnectionStrings.LiteDbConnection()))
             {
                 var col = db.GetCollection<AuthenticationEvent>("UserEvents");
 
@@ -32,7 +28,7 @@ namespace Authentication.EventStore
 
         public List<AuthenticationEvent> GetAll(Guid aggregateId)
         {
-            using (var db = new LiteDatabase(_connectionStrong))
+            using (var db = new LiteDatabase(_databaseConnectionStrings.LiteDbConnection()))
             {
                 var col = db.GetCollection<AuthenticationEvent>("UserEvents");
 
@@ -46,7 +42,7 @@ namespace Authentication.EventStore
 
         public void Save(AuthenticationEvent newEvent)
         {
-            using (var db = new LiteDatabase(_connectionStrong))
+            using (var db = new LiteDatabase(_databaseConnectionStrings.LiteDbConnection()))
             {
                 // Get a collection (or create, if doesn't exist)
                 var col = db.GetCollection<AuthenticationEvent>("UserEvents");

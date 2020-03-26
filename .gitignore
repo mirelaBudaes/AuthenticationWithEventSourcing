@@ -2,3 +2,5 @@
 bin/
 obj/
 Authentication.Query/obj/
+Authentication.SqlStore/Users_log.ldf
+Authentication.SqlStore/Users.mdf

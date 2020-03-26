@@ -1,0 +1,13 @@
+{
+  "LiteDbStoreConnection": "C:\\Work\\Opdrachten\\Registration\\Registration\\LiteUsers.db",
+
+
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ]
+}
