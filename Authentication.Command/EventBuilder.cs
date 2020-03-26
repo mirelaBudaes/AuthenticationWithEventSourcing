@@ -11,7 +11,7 @@ namespace Authentication.Command
             {
                 EventAction = eventOccurred.ToString(),
                 UserId = userId,
-                UserInfo = new UserInfo()
+                UserInfo = new EventUserInfo()
                 {
                     Email = emailAddresss,
                     UserId = userId

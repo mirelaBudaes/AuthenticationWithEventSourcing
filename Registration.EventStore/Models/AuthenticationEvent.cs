@@ -7,11 +7,11 @@ namespace Authentication.EventStore.Models
         public Guid Id { get; set; }
         public string EventAction { get; set; }
         public Guid UserId { get; set; } //AggregateId
-        public UserInfo UserInfo { get; set; }
+        public EventUserInfo UserInfo { get; set; }
         public System.DateTime TimeStamp { get; set; }
     }
 
-    public class UserInfo
+    public class EventUserInfo
     {
         public Guid UserId { get; set; }
 

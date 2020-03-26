@@ -8,18 +8,18 @@ namespace Authentication.Web.Mappers
 {
     public class UsersViewModelMapper
     {
-        public UsersViewModel Map(IList<AuthenticationEvent> events, IList<User> users)
+        public HomeViewModel Map(IList<AuthenticationEvent> events, IList<User> users)
         {
-            return new UsersViewModel()
+            return new HomeViewModel()
             {
                 AuthenticationEvents = events.Select(Map).ToList(),
                 Users = users.Select(Map).ToList()
             };
         }
 
-        EventViewModel Map(AuthenticationEvent authEvent)
+        public AuthenticationEventViewModel Map(AuthenticationEvent authEvent)
         {
-            return new EventViewModel()
+            return new AuthenticationEventViewModel()
             {
                 EventAction = authEvent.EventAction,
                 TimeStamp = authEvent.TimeStamp,
@@ -27,19 +27,21 @@ namespace Authentication.Web.Mappers
             };
         }
 
-        UserViewModel Map(UserInfo user)
+        public StoredUserViewModel Map(EventUserInfo eventUser)
         {
-            return new UserViewModel()
+            return new StoredUserViewModel()
             {
-                Email = user.Email,
-                EmailIsVerified = user.EmailIsVerified
+                Email = eventUser.Email,
+                EmailIsVerified = eventUser.EmailIsVerified,
+                UserId = eventUser.UserId
             };
         }
 
-        UserViewModel Map(User user)
+        public StoredUserViewModel Map(User user)
         {
-            return new UserViewModel()
+            return new StoredUserViewModel()
             {
+                UserId = user.UserId,
                 Email = user.Email,
                 EmailIsVerified = user.EmailIsVerified,
                 CreatedDate = user.CreatedDate,

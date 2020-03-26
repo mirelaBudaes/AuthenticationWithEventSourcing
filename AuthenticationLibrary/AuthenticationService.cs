@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Authentication.Query;
 using Authentication.Command;
+using Authentication.EventStore;
 using Authentication.EventStore.Models;
 using Authentication.Library.Exceptions;
 using Authentication.SqlStore.Models;
@@ -16,17 +17,23 @@ namespace Authentication.Library
         IList<AuthenticationEvent> GetLastEvents(int topX);
 
         IList<User> GetLastUpdatedUsers(int topX);
+        User GetStoredUser(Guid userId);
+
+        IList<AuthenticationEvent> GetHistoryForUserId(Guid userId);
     }
 
     internal class AuthenticationService : IAuthenticationService
     {
         private readonly IEventSourceManager _eventSourceManager;
         private readonly UserRepository _userRepository;
+        private readonly IAuthenticationEventRepository _eventRepository;
 
-        public AuthenticationService(IEventSourceManager eventSourceManager, UserRepository userRepository)
+        public AuthenticationService(IEventSourceManager eventSourceManager, UserRepository userRepository,
+            IAuthenticationEventRepository eventRepository)
         {
             _eventSourceManager = eventSourceManager;
             _userRepository = userRepository;
+            _eventRepository = eventRepository;
         }
 
         public void RegisterUser(string emailAddress)
@@ -45,9 +52,21 @@ namespace Authentication.Library
             //var registerUserCommand = new RegisterUserCommand();
         }
 
+        public User GetStoredUser(Guid userId)
+        {
+            return _userRepository.GetUser(userId);
+        }
+
+        public IList<AuthenticationEvent> GetHistoryForUserId(Guid userId)
+        {
+            return _eventRepository.All(userId)
+                .OrderByDescending(x => x.TimeStamp)
+                .ToList();
+        }
+
         public IList<AuthenticationEvent> GetLastEvents(int topX)
         {
-            return _eventSourceManager.GetEvents(topX)
+            return _eventRepository.GetLastEvents(topX)
                 .OrderByDescending(x=> x.TimeStamp)
                 .ToList();
         }

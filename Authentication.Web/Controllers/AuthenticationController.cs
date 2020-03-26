@@ -34,7 +34,7 @@ namespace Authentication.Web.Controllers
             {
                 _authenticationService.RegisterUser(emailAddress);
             }
-            catch (EmailExistsException e)
+            catch (EmailExistsException)
             {
                 return Register(new RegisterViewModel()
                 {

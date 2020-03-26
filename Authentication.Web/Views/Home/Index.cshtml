@@ -1,8 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Users</h1>
+
+<h2>Last added events</h2>
+<!--Yes, I know it's very oldskool to use tables, but the purpose of the exercise was not html-->
+<table>
+    <tr>
+        <th>Email</th>
+        <th>Action</th>
+        <th>Time</th>
+    </tr>
+    @foreach (var authenticationEvent in Model.AuthenticationEvents)
+    {
+        <tr>
+            @*<td>@authenticationEvent.UserId</td>*@
+            <td>@authenticationEvent.UserInfo.Email</td>
+            <td>@authenticationEvent.EventAction</td>
+            @*<td>@authenticationEvent.Id</td>*@
+            <td>@authenticationEvent.TimeStamp</td>
+        </tr>
+    }
+</table>
+
+<h2>Last added users</h2>
+<table>
+    <tr>
+        <th>User Id</th>
+        <th>Email</th>
+        <th>Email is verified</th>
+        <th>Created date</th>
+        <th>Last updated date</th>
+    </tr>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            @*<td>@authenticationEvent.UserId</td>*@
+            <td>
+                <a class="nav-link" asp-area="" asp-controller="User" asp-action="Index" asp-route-userId="@user.UserId">@user.UserId</a>
+               
+            </td>
+            <td> @user.Email</td>
+            <td>@user.EmailIsVerified</td>
+            <td>@user.CreatedDate</td>
+            <td>@user.LastUpdatedDate</td>
+            @*<td>@authenticationEvent.Id</td>*@
+        </tr>
+    }
+</table>
+
+
+

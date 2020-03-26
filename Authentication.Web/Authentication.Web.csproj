@@ -10,6 +10,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationLibrary\Authentication.Library.csproj" />
+    <ProjectReference Include="..\Registration.EventStore\Authentication.EventStore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 

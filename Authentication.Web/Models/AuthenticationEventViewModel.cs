@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Authentication.Web.Models
 {
-    public class EventViewModel
+    public class AuthenticationEventViewModel
     {
         public string EventAction { get; set; }
-        public UserViewModel UserInfo { get; set; }
+        public StoredUserViewModel UserInfo { get; set; }
         public System.DateTime TimeStamp { get; set; }
     }
 }
