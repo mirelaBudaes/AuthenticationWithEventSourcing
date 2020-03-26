@@ -1,4 +1,5 @@
-﻿using Authentication.Library;
+﻿using System;
+using Authentication.Library;
 using Authentication.Library.Exceptions;
 using Authentication.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,14 @@ namespace Authentication.Web.Controllers
                 });
             }
 
-            return RedirectToAction("Register");
+            var newUser = _authenticationService.GetStoredUser(emailAddress);
+
+            if (newUser == null)
+            {
+                throw new Exception($"User was not saved");
+            }
+
+            return RedirectToAction("Index", "User", new {userId = newUser.UserId});
         }
     }
 }

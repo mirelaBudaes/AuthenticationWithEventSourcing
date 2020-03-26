@@ -29,6 +29,8 @@ namespace Authentication.Web.Mappers
 
         public StoredUserViewModel Map(EventUserInfo eventUser)
         {
+            if (eventUser == null) return null;
+
             return new StoredUserViewModel()
             {
                 Email = eventUser.Email,

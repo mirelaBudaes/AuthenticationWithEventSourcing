@@ -19,6 +19,8 @@ namespace Authentication.Library
         IList<User> GetLastUpdatedUsers(int topX);
         User GetStoredUser(Guid userId);
 
+        User GetStoredUser(string emailAddress);
+
         IList<AuthenticationEvent> GetHistoryForUserId(Guid userId);
     }
 
@@ -55,6 +57,11 @@ namespace Authentication.Library
         public User GetStoredUser(Guid userId)
         {
             return _userRepository.GetUser(userId);
+        }
+
+        public User GetStoredUser(string emailAddress)
+        {
+            return _userRepository.GetUser(emailAddress);
         }
 
         public IList<AuthenticationEvent> GetHistoryForUserId(Guid userId)

@@ -19,7 +19,10 @@
     {
         <tr>
             @*<td>@authenticationEvent.UserId</td>*@
-            <td>@authenticationEvent.UserInfo.Email</td>
+            @if (authenticationEvent.UserInfo != null)
+            {
+                <td> @authenticationEvent.UserInfo.Email</td>
+            }
             <td>@authenticationEvent.EventAction</td>
             @*<td>@authenticationEvent.Id</td>*@
             <td>@authenticationEvent.TimeStamp</td>

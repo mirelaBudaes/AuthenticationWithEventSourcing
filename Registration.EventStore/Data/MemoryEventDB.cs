@@ -1,42 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Authentication.EventStore.Models;
 
-namespace Authentication.EventStore
+namespace Authentication.EventStore.Data
 {
     internal class MemoryEventDb : IEventStore
     {
-        private readonly IList<AuthenticationEvent> _events;
+        private readonly IList<LoggedEvent> _events;
 
         public MemoryEventDb()
         {
-            _events = new List<AuthenticationEvent>();
+            _events = new List<LoggedEvent>();
         }
 
-        public void Save(AuthenticationEvent newEvent)
+        public void Save(LoggedEvent newEvent)
         {
             newEvent.Id = Guid.NewGuid();
 
             _events.Add(newEvent);
         }
 
-        public List<AuthenticationEvent> GetAll()
+        public List<LoggedEvent> GetAll()
         {
             return _events
                 .ToList();
         }
 
-        public List<AuthenticationEvent> GetAll(int topX)
+        public List<LoggedEvent> GetAll(int topX)
         {
             throw new NotImplementedException();
         }
 
-        public List<AuthenticationEvent> GetAll(Guid aggregateId)
+        public List<LoggedEvent> GetAll(Guid aggregateId)
         {
             return _events
-                .Where(x => x.UserId == aggregateId )
+                .Where(x => x.AggregateId == aggregateId )
                 .ToList();
         }
     }

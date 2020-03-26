@@ -10,13 +10,4 @@ namespace Authentication.EventStore.Models
         public EventUserInfo UserInfo { get; set; }
         public System.DateTime TimeStamp { get; set; }
     }
-
-    public class EventUserInfo
-    {
-        public Guid UserId { get; set; }
-
-        public string Email { get; set; }
-
-        public bool EmailIsVerified { get; set; }
-    }
 }

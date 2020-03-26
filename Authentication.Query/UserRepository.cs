@@ -34,6 +34,22 @@ namespace Authentication.Query
             }
         }
 
+        public User GetUser(string emailAddress)
+        {
+            using (IDbConnection db = GetConnection())
+            {
+                var parameters = new { Email = emailAddress };
+
+                var users = db.Query<User>(
+                    @"Select * From Users 
+                        Where email = @email",
+                    parameters
+                ).FirstOrDefault();
+
+                return users;
+            }
+        }
+
         public bool UserExists(string email)
         {
             using (IDbConnection db = GetConnection())
