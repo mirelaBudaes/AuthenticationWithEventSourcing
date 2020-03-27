@@ -53,9 +53,22 @@ namespace Authentication.Web.Controllers
             catch (EmailExistsException)
             {
                 ViewBag.ErrorMessage = $"User {emailAddress} already exists";
-                
+
                 return RedirectToAction("Index", new { userId = userId });
             }
+
+            return RedirectToAction("Index", "User", new { userId = userId });
+        }
+
+        [HttpPost]
+        public IActionResult VerifyEmailAddress(string emailAddress, string userId)
+        {
+            //todo: email address validation
+
+            Guid userGuid;
+            Guid.TryParse(userId, out userGuid);
+
+            _authenticationService.VerifyEmailAddress(userGuid, emailAddress);
 
             return RedirectToAction("Index", "User", new { userId = userId });
         }

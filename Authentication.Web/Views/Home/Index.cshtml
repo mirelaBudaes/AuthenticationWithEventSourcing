@@ -7,31 +7,6 @@
 
 <h1>Users</h1>
 
-<h2>Last added events</h2>
-<!--Yes, I know it's very oldskool to use tables, but the purpose of the exercise was not html-->
-<table>
-    <tr>
-        <th>Action</th>
-        <th>Time</th>
-        <th>Data</th>
-
-    </tr>
-    @foreach (var authenticationEvent in Model.AuthenticationEvents)
-    {
-<tr>
-    @*<td>@authenticationEvent.UserId</td>*@
-
-    <td>@authenticationEvent.EventAction</td>
-    @*<td>@authenticationEvent.Id</td>*@
-    <td>@authenticationEvent.TimeStamp</td>
-    @if (!string.IsNullOrWhiteSpace(authenticationEvent.UserInfo))
-    {
-        <td> @authenticationEvent.UserInfo</td>
-    }
-</tr>
-    }
-</table>
-
 <h2>Last added users</h2>
 <table>
     <tr>
@@ -47,7 +22,7 @@
             @*<td>@authenticationEvent.UserId</td>*@
             <td>
                 <a class="nav-link" asp-area="" asp-controller="User" asp-action="Index" asp-route-userId="@user.UserId">@user.UserId</a>
-               
+
             </td>
             <td> @user.Email</td>
             <td>@user.EmailIsVerified</td>
@@ -57,6 +32,33 @@
         </tr>
     }
 </table>
+
+<h2>Last added events</h2>
+<!--Yes, I know it's very oldskool to use tables, but the purpose of the exercise was not html-->
+<table>
+    <tr>
+        <th>Action</th>
+        <th>Time</th>
+        <th>Data</th>
+
+    </tr>
+    @foreach (var authenticationEvent in Model.AuthenticationEvents)
+    {
+        <tr>
+            @*<td>@authenticationEvent.UserId</td>*@
+
+            <td>@authenticationEvent.EventAction</td>
+            @*<td>@authenticationEvent.Id</td>*@
+            <td>@authenticationEvent.TimeStamp</td>
+            @if (!string.IsNullOrWhiteSpace(authenticationEvent.UserInfo))
+            {
+                <td> @authenticationEvent.UserInfo</td>
+            }
+        </tr>
+    }
+</table>
+
+
 
 
 

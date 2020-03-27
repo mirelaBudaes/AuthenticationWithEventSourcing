@@ -17,6 +17,8 @@ namespace Authentication.Library
 
         void RequestChangeEmail(Guid userId, string newEmailAddress);
 
+        void VerifyEmailAddress(Guid userId, string newEmailAddress);
+
         IList<LoggedEvent> GetLastEvents(int topX);
 
         IList<User> GetLastUpdatedUsers(int topX);
@@ -73,7 +75,11 @@ namespace Authentication.Library
             _eventSourceManager.Log(EventAction.EmailChangeRequested, newEmailAddress, userId);
 
 
-            //var registerUserCommand = new RegisterUserCommand();
+        }
+
+        public void VerifyEmailAddress(Guid userId, string newEmailAddress)
+        {
+            _eventSourceManager.Log(EventAction.EmailVerified, newEmailAddress, userId);
         }
 
         public User GetStoredUser(Guid userId)
@@ -96,7 +102,7 @@ namespace Authentication.Library
         public IList<LoggedEvent> GetLastEvents(int topX)
         {
             return _loggedEventRepository.GetAll(topX)
-                .OrderByDescending(x=> x.TimeStamp)
+                .OrderByDescending(x => x.TimeStamp)
                 .ToList();
         }
 

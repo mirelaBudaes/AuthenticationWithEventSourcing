@@ -24,26 +24,17 @@ namespace Authentication.EventStore
             {
                 case EventAction.UserRegistered:
                     authenticationEvent = JsonConvert.DeserializeObject<UserRegisteredEvent>(loggedEvent.Data);
-                    authenticationEvent.Id = loggedEvent.Id;
-                    authenticationEvent.EventAction = loggedEvent.Action;
-                    authenticationEvent.TimeStamp = loggedEvent.TimeStamp;
-                    authenticationEvent.UserId = loggedEvent.AggregateId;
                     break;
-
                 case EventAction.EmailUniqueValidationFailed:
                     authenticationEvent = JsonConvert.DeserializeObject<EmailUniqueValidationFailedEvent>(loggedEvent.Data);
-                    authenticationEvent.Id = loggedEvent.Id;
-                    authenticationEvent.EventAction = loggedEvent.Action;
-                    authenticationEvent.TimeStamp = loggedEvent.TimeStamp;
-                    authenticationEvent.UserId = loggedEvent.AggregateId;
+                  break;
+
+                case EventAction.EmailVerified:
+                    authenticationEvent = JsonConvert.DeserializeObject<EmailVerifiedEvent>(loggedEvent.Data);
                     break;
 
                 case EventAction.EmailChangeRequested:
                     authenticationEvent = JsonConvert.DeserializeObject<EmailChangeRequestedEvent>(loggedEvent.Data);
-                    //authenticationEvent.Id = loggedEvent.Id;
-                    //authenticationEvent.EventAction = loggedEvent.Action;
-                    //authenticationEvent.TimeStamp = loggedEvent.TimeStamp;
-                    //authenticationEvent.UserId = loggedEvent.AggregateId;
                     break;
 
             }

@@ -16,9 +16,18 @@
     <text> Change email address </text>
     @Html.TextBox("EmailAddress", null, new { @class = "form-control", placeholder = "enter new email address" })
 
-    @Html.Hidden("userId", "@Model.StoredUser.Email")
+    @Html.Hidden("userId", "@Model.StoredUser.UserId")
 
     <input type="submit" value="Change" />
+}
+
+@using (Html.BeginForm("VerifyEmailAddress", "User", FormMethod.Post))
+{
+    var email = Model.StoredUser.Email;
+    @Html.Hidden("emailAddress", email)
+    @Html.Hidden("userId", "@Model.StoredUser.UserId")
+
+    <input type="submit" value="Verify email address" />
 }
 
 
