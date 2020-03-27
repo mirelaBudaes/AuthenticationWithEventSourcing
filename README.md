@@ -2,25 +2,25 @@ Authentication with Event Sourcing
 
 I will explain the code next to the requirements. Ik gebruik Engels omdat het sneller is om te schrijven.
 
-<!-- Opdracht:
+#Opdracht:
 
- Een gebruiker moet zich kunnen registeren op basis van een e-mailadres, 
- met behulp van dit e-mailadres moet de gebruiker zich in de toekomst 
- kunnen inloggen op het systeem met een wachtwoord. -->
+# Een gebruiker moet zich kunnen registeren op basis van een e-mailadres, 
+# met behulp van dit e-mailadres moet de gebruiker zich in de toekomst 
+# kunnen inloggen op het systeem met een wachtwoord.
 The web application (.net core mvc) Authentication.Web has a Register action (in the Authentication controller). Here can a user be added.
 If the email address is already in the DB, we get an event saved and an error message.
 
-<!-- Er is zowel een NoSQL event store (let op dit is géén key-value store) 
-aanwezig als een SQL database. Beide zijn via het netwerk te bereiken. -->
+# Er is zowel een NoSQL event store (let op dit is géén key-value store) 
+# aanwezig als een SQL database. Beide zijn via het netwerk te bereiken.
 In order to test, I added the 2 databases. Used a local sql db and Dapper as an ORM (worked with it a lot in my last job).
 As NoSql I used LiteDB as it had a very quick start. Each of them is accessed through a separate project (EventStore and SqlStore).
 The NoSql db stores the events. Events can only be added.
 The Sql stores the current version of the user, no history included.
 
 
-<!-- Er moet een dotnet library worden gemaakt welke zowel gebruikt kan 
- worden vanuit een ASP.Net core MVC website als via een .NET framework console applicatie op basis van event sourcing.
-Gebruik voor de version control git. En als taal C#. -->
+# Er moet een dotnet library worden gemaakt welke zowel gebruikt kan 
+# worden vanuit een ASP.Net core MVC website als via een .NET framework console applicatie op basis van event sourcing.
+# Gebruik voor de version control git. En als taal C#.
 The library is Authentication.Library with a main public class AuthenticationService.
 I added a ASP.Net core MVC website already, which serves as the UI from point 3.
 
@@ -32,43 +32,43 @@ but I wanted to implement most requirements first.
 
 
 1)
-<!-- Ga er van uit dat er een NoSQL event store aanwezig is via het netwerk bereikbaar waarbij :
- - op basis van een key alle events voor deze key terug krijgt;
- - op basis van een key je één of meerdere events kan toevoegen.
- Definieer voor bovenstaande een interface welke je later kan gebruiken. -->
+# Ga er van uit dat er een NoSQL event store aanwezig is via het netwerk bereikbaar waarbij :
+# - op basis van een key alle events voor deze key terug krijgt;
+# - op basis van een key je één of meerdere events kan toevoegen.
+# Definieer voor bovenstaande een interface welke je later kan gebruiken.
 
 Dat is IAuthenticationEventRepository and AuthenticationEventRepository implementation.
 
 2)
-<!-- Voeg aan de dotnet library de volgende functionaliteit toe waarbij gebruik wordt gemaakt van de eerder gemaakte interface.
- - gebruiker kunnen aanmaken op basis van e-mailadres; -->
+# Voeg aan de dotnet library de volgende functionaliteit toe waarbij gebruik wordt gemaakt van de eerder gemaakte interface.
+# - gebruiker kunnen aanmaken op basis van e-mailadres;
 AuthenticationService.RegisterUser(string emailAddress). 
 Run the website, go to Register link.
-<!-- - gebruiker moet zijn e-mailadres kunnen wijzigen, een wijziging van 
- een e-mailadres kan echter niet meteen gebeuren omdat deze eerst geverifieerd moet worden; -->
+# - gebruiker moet zijn e-mailadres kunnen wijzigen, een wijziging van 
+# een e-mailadres kan echter niet meteen gebeuren omdat deze eerst geverifieerd moet worden;
 Run the website, click on a user. You'll be taken to User page.
 AuthenticationService.RequestChangeEmail(Guid userId, string newEmailAddress) will create the EmailChangeRequested event. 
 The Sql data doesn't change, because the email has to be verified first.
 When the email will be verified, we can raise the EmailChanged event (this is not done).
 
-<!-- - gebruiker kunnen verwijderen, eventuele gegevens die we van de gebruiker hebben 
- moeten na 30 dagen binnen het systeem worden verwijderd. -->
+# - gebruiker kunnen verwijderen, eventuele gegevens die we van de gebruiker hebben 
+# moeten na 30 dagen binnen het systeem worden verwijderd.
 Didn't have time to do this one. The plan is:
 - create UserUnregistered event. 
 - On replay delete the user from the sql db.
 - create a task for 30 days later (maybe by using Bus with saga and handlers this would have been easier)
 
-<!--Binnen het systeem moeten alle e-mailadressen uniek zijn. -->
+# Binnen het systeem moeten alle e-mailadressen uniek zijn.
 When a user registers with an existing email, an EmailUniqueValidationFailed event is raised and saved in the NoSql db.
 The Sql one is not changed.
 
-<!-- Het verifiëren van e-mailadressen hoeft niet gemaakt te worden, maar de library 
- moet wel de mogelijkheid hebben om aan te geven dat een e-mailadres is geverifieerd. -->
+# Het verifiëren van e-mailadressen hoeft niet gemaakt te worden, maar de library 
+# moet wel de mogelijkheid hebben om aan te geven dat een e-mailadres is geverifieerd.
 This can be done from the User page. An event is raised and on Replay, the Sql is updated..
 
 3)
-<!-- Maak een UI (dit mag ook een simpele console app zijn) waarbij we een gebruiker 
- op basis van een e-mailadres of een gedeelte van een e-mailadres kunnen opzoeken. -->
+# Maak een UI (dit mag ook een simpele console app zijn) waarbij we een gebruiker 
+# op basis van een e-mailadres of een gedeelte van een e-mailadres kunnen opzoeken.
 The UI is the Authentication.Web, but because of time I didn't do the search.
 You can see some MVC skills in the existing controllers from there and search in the Dapper repos.
 The plan would be:
