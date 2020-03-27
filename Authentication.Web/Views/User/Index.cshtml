@@ -11,18 +11,20 @@
 <!--Yes, I know it's very oldskool to use tables, but the purpose of the exercise was not html-->
 <table>
     <tr>
-        <th>Email</th>
         <th>Action</th>
         <th>Time</th>
+        <th>Data</th>
+
     </tr>
     @foreach (var authenticationEvent in Model.History)
     {
         <tr>
             @*<td>@authenticationEvent.UserId</td>*@
-            <td>@authenticationEvent.UserInfo.Email</td>
             <td>@authenticationEvent.EventAction</td>
             @*<td>@authenticationEvent.Id</td>*@
             <td>@authenticationEvent.TimeStamp</td>
+            <td>@authenticationEvent.UserInfo</td>
+
         </tr>
     }
 </table>

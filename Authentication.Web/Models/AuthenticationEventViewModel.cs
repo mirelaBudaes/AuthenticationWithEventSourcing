@@ -8,7 +8,7 @@ namespace Authentication.Web.Models
     public class AuthenticationEventViewModel
     {
         public string EventAction { get; set; }
-        public StoredUserViewModel UserInfo { get; set; }
+        public string UserInfo { get; set; }
         public System.DateTime TimeStamp { get; set; }
     }
 }

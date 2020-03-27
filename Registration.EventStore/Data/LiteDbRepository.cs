@@ -6,11 +6,11 @@ using LiteDB;
 
 namespace Authentication.EventStore.Data
 {
-    internal class LiteDbStore : IEventStore
+    internal class LiteDbRepository : ILoggedEventRepository
     {
         private readonly DatabaseConnectionStrings _databaseConnectionStrings;
 
-        public LiteDbStore(DatabaseConnectionStrings databaseConnectionStrings)
+        public LiteDbRepository(DatabaseConnectionStrings databaseConnectionStrings)
         {
             _databaseConnectionStrings = databaseConnectionStrings;
         }

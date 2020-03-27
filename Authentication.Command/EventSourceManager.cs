@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Authentication.EventStore;
+using Authentication.EventStore.Events;
 using Authentication.EventStore.Models;
 using Authentication.SqlStore.Models;
 
@@ -10,8 +11,6 @@ namespace Authentication.Command
     public interface IEventSourceManager
     {
         void Log(EventAction whatHappened, string emailAddresss);
-
-        IEnumerable<AuthenticationEvent> GetEvents(int topX);
     }
 
     internal class EventSourceManager : IEventSourceManager
@@ -31,12 +30,7 @@ namespace Authentication.Command
             Log(whatHappened, emailAddresss, Guid.NewGuid());
 
         }
-
-        public IEnumerable<AuthenticationEvent> GetEvents(int topX)
-        {
-            return _eventRepository.GetLastEvents(topX);
-        }
-
+        
         public void Log(EventAction whatHappened, string emailAddresss, Guid userId)
         {
             var authenticationEvent = EventBuilder.New(whatHappened, emailAddresss, userId);
@@ -65,20 +59,21 @@ namespace Authentication.Command
                 switch (whatHappened)
                 {
                     case EventAction.UserRegistered:
-                        user = new User(e.UserId, e.UserInfo.Email, e.UserInfo.EmailIsVerified);
+                        var userRegisteredEvent = e as UserRegisteredEvent;
+                        user = new User(e.UserId, userRegisteredEvent.UserInfo.Email, userRegisteredEvent.UserInfo.EmailIsVerified);
                         user.CreatedDate = e.TimeStamp;
                         user.LastUpdatedDate = e.TimeStamp;
                         break;
                     case EventAction.EmailUniqueValidationFailed:
                         break;
-                    case EventAction.EmailVerified:
-                        user = new User(e.UserId, e.UserInfo.Email, e.UserInfo.EmailIsVerified);
-                        user.LastUpdatedDate = e.TimeStamp;
-                        break;
-                    case EventAction.EmailChanged:
-                        user = new User(e.UserId, e.UserInfo.Email, false);
-                        user.LastUpdatedDate = e.TimeStamp;
-                        break;
+                    //case EventAction.EmailVerified:
+                    //    user = new User(e.UserId, e.UserInfo.Email, e.UserInfo.EmailIsVerified);
+                    //    user.LastUpdatedDate = e.TimeStamp;
+                    //    break;
+                    //case EventAction.EmailChanged:
+                    //    user = new User(e.UserId, e.UserInfo.Email, false);
+                    //    user.LastUpdatedDate = e.TimeStamp;
+                    //    break;
                        
                 }
             }

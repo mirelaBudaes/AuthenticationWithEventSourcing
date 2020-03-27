@@ -1,4 +1,5 @@
 ﻿using System;
+using Authentication.EventStore.Events;
 using Authentication.EventStore.Models;
 
 namespace Authentication.Command
@@ -7,29 +8,34 @@ namespace Authentication.Command
     {
         public static AuthenticationEvent New(EventAction eventOccurred, string emailAddresss, Guid userId)
         {
-            var authenticationEvent = new AuthenticationEvent()
-            {
-                EventAction = eventOccurred.ToString(),
-                UserId = userId,
-                UserInfo = new EventUserInfo()
-                {
-                    Email = emailAddresss,
-                    UserId = userId
-                }
-            };
-
             switch (eventOccurred)
             {
                 case EventAction.UserRegistered:
-                    authenticationEvent.UserInfo.EmailIsVerified = false;
-                    break;
+                    var authenticationEvent = new UserRegisteredEvent()
+                    {
+                        EventAction = eventOccurred.ToString(),
+                        UserId = userId,
+                        UserInfo = new EventUserInfo()
+                        {
+                            Email = emailAddresss,
+                            UserId = userId,
+                            EmailIsVerified = false
+                        }
+                    };
+                    return authenticationEvent;
 
-                case EventAction.EmailVerified:
-                    authenticationEvent.UserInfo.EmailIsVerified = true;
-                    break;
+                case EventAction.EmailUniqueValidationFailed:
+                    var validationFailedEvent = new EmailUniqueValidationFailedEvent()
+                    {
+                        EventAction = eventOccurred.ToString(),
+                        UserId = userId,
+                        Email = emailAddresss
+                    };
+                    return validationFailedEvent;
 
+                default:
+                    return null;
             }
-            return authenticationEvent;
         }
     }
 }

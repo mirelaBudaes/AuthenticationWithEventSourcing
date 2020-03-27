@@ -5,9 +5,8 @@ using Authentication.EventStore.Models;
 
 namespace Authentication.EventStore.Events
 {
-    public class UserRegisteredEvent : AuthenticationEvent
+    public class EmailUniqueValidationFailedEvent :AuthenticationEvent
     {
-        public EventUserInfo UserInfo { get; set; }
-
+        public string Email { get; set; }
     }
 }

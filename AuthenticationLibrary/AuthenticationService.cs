@@ -4,6 +4,7 @@ using System.Linq;
 using Authentication.Query;
 using Authentication.Command;
 using Authentication.EventStore;
+using Authentication.EventStore.Data;
 using Authentication.EventStore.Models;
 using Authentication.Library.Exceptions;
 using Authentication.SqlStore.Models;
@@ -14,14 +15,14 @@ namespace Authentication.Library
     {
         void RegisterUser(string emailAddress);
 
-        IList<AuthenticationEvent> GetLastEvents(int topX);
+        IList<LoggedEvent> GetLastEvents(int topX);
 
         IList<User> GetLastUpdatedUsers(int topX);
         User GetStoredUser(Guid userId);
 
         User GetStoredUser(string emailAddress);
 
-        IList<AuthenticationEvent> GetHistoryForUserId(Guid userId);
+        IList<LoggedEvent> GetHistoryForUserId(Guid userId);
     }
 
     internal class AuthenticationService : IAuthenticationService
@@ -29,13 +30,16 @@ namespace Authentication.Library
         private readonly IEventSourceManager _eventSourceManager;
         private readonly UserRepository _userRepository;
         private readonly IAuthenticationEventRepository _eventRepository;
+        private readonly ILoggedEventRepository _loggedEventRepository;
 
         public AuthenticationService(IEventSourceManager eventSourceManager, UserRepository userRepository,
-            IAuthenticationEventRepository eventRepository)
+            IAuthenticationEventRepository eventRepository,
+            ILoggedEventRepository loggedEventRepository)
         {
             _eventSourceManager = eventSourceManager;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
+            _loggedEventRepository = loggedEventRepository;
         }
 
         public void RegisterUser(string emailAddress)
@@ -64,16 +68,16 @@ namespace Authentication.Library
             return _userRepository.GetUser(emailAddress);
         }
 
-        public IList<AuthenticationEvent> GetHistoryForUserId(Guid userId)
+        public IList<LoggedEvent> GetHistoryForUserId(Guid userId)
         {
-            return _eventRepository.All(userId)
+            return _loggedEventRepository.GetAll(userId)
                 .OrderByDescending(x => x.TimeStamp)
                 .ToList();
         }
 
-        public IList<AuthenticationEvent> GetLastEvents(int topX)
+        public IList<LoggedEvent> GetLastEvents(int topX)
         {
-            return _eventRepository.GetLastEvents(topX)
+            return _loggedEventRepository.GetAll(topX)
                 .OrderByDescending(x=> x.TimeStamp)
                 .ToList();
         }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Authentication.EventStore.Data
 {
-    internal class MemoryEventDb : IEventStore
+    internal class MemoryEventDb : ILoggedEventRepository
     {
         private readonly IList<LoggedEvent> _events;
 

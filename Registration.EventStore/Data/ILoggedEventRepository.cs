@@ -4,7 +4,7 @@ using Authentication.EventStore.Models;
 
 namespace Authentication.EventStore.Data
 {
-    internal interface IEventStore
+    public interface ILoggedEventRepository
     {
         List<LoggedEvent> GetAll();
 

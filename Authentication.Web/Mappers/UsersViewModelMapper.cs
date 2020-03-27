@@ -1,14 +1,14 @@
-﻿using Authentication.EventStore.Models;
-using Authentication.SqlStore.Models;
+﻿using Authentication.SqlStore.Models;
 using Authentication.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Authentication.EventStore.Data;
 
 namespace Authentication.Web.Mappers
 {
     public class UsersViewModelMapper
     {
-        public HomeViewModel Map(IList<AuthenticationEvent> events, IList<User> users)
+        public HomeViewModel Map(IList<LoggedEvent> events, IList<User> users)
         {
             return new HomeViewModel()
             {
@@ -17,25 +17,13 @@ namespace Authentication.Web.Mappers
             };
         }
 
-        public AuthenticationEventViewModel Map(AuthenticationEvent authEvent)
+        public AuthenticationEventViewModel Map(LoggedEvent authEvent)
         {
             return new AuthenticationEventViewModel()
             {
-                EventAction = authEvent.EventAction,
+                EventAction = authEvent.Action,
                 TimeStamp = authEvent.TimeStamp,
-                UserInfo = Map(authEvent.UserInfo)
-            };
-        }
-
-        public StoredUserViewModel Map(EventUserInfo eventUser)
-        {
-            if (eventUser == null) return null;
-
-            return new StoredUserViewModel()
-            {
-                Email = eventUser.Email,
-                EmailIsVerified = eventUser.EmailIsVerified,
-                UserId = eventUser.UserId
+                UserInfo = authEvent.Data
             };
         }
 

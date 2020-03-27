@@ -12,7 +12,7 @@ namespace Authentication.EventStore.DependencyInjection
 
             services.AddSingleton<DatabaseConnectionStrings>();
             //services.AddSingleton<MemoryEventDb>();
-            services.AddTransient<IEventStore, LiteDbStore>();
+            services.AddTransient<ILoggedEventRepository, LiteDbRepository>();
 
             return services;
         }
