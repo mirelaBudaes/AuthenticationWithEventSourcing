@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Authentication.Query;
 using Authentication.Command;
-using Authentication.EventStore;
 using Authentication.EventStore.Data;
 using Authentication.EventStore.Models;
 using Authentication.Library.Exceptions;
@@ -33,16 +32,13 @@ namespace Authentication.Library
     {
         private readonly IEventSourceManager _eventSourceManager;
         private readonly UserRepository _userRepository;
-        private readonly IAuthenticationEventRepository _eventRepository;
         private readonly ILoggedEventRepository _loggedEventRepository;
 
         public AuthenticationService(IEventSourceManager eventSourceManager, UserRepository userRepository,
-            IAuthenticationEventRepository eventRepository,
             ILoggedEventRepository loggedEventRepository)
         {
             _eventSourceManager = eventSourceManager;
             _userRepository = userRepository;
-            _eventRepository = eventRepository;
             _loggedEventRepository = loggedEventRepository;
         }
 
@@ -50,14 +46,12 @@ namespace Authentication.Library
         {
             if (_userRepository.UserExists(emailAddress))
             {
-                //todo: create an event here also
                 _eventSourceManager.Log(EventAction.EmailUniqueValidationFailed, emailAddress);
 
                 throw new EmailExistsException();
             }
 
             _eventSourceManager.Log(EventAction.UserRegistered, emailAddress);
-
 
             //var registerUserCommand = new RegisterUserCommand();
         }
@@ -66,7 +60,6 @@ namespace Authentication.Library
         {
             if (_userRepository.UserExists(newEmailAddress))
             {
-                //todo: create an event here also
                 _eventSourceManager.Log(EventAction.EmailUniqueValidationFailed, newEmailAddress);
 
                 throw new EmailExistsException();

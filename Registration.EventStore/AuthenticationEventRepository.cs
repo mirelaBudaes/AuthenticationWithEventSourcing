@@ -16,32 +16,6 @@ namespace Authentication.EventStore
             _eventDb = eventDb;
         }
 
-        private AuthenticationEvent Map(LoggedEvent loggedEvent)
-        {
-            var authenticationEvent = new AuthenticationEvent();
-            var whatHappened = (EventAction)Enum.Parse(typeof(EventAction), loggedEvent.Action);
-            switch (whatHappened)
-            {
-                case EventAction.UserRegistered:
-                    authenticationEvent = JsonConvert.DeserializeObject<UserRegisteredEvent>(loggedEvent.Data);
-                    break;
-                case EventAction.EmailUniqueValidationFailed:
-                    authenticationEvent = JsonConvert.DeserializeObject<EmailUniqueValidationFailedEvent>(loggedEvent.Data);
-                  break;
-
-                case EventAction.EmailVerified:
-                    authenticationEvent = JsonConvert.DeserializeObject<EmailVerifiedEvent>(loggedEvent.Data);
-                    break;
-
-                case EventAction.EmailChangeRequested:
-                    authenticationEvent = JsonConvert.DeserializeObject<EmailChangeRequestedEvent>(loggedEvent.Data);
-                    break;
-
-            }
-
-            return authenticationEvent;
-        }
-
         public IList<AuthenticationEvent> All(Guid aggregateId)
         {
             var loggedEvents = _eventDb.GetAll(aggregateId);
@@ -61,6 +35,32 @@ namespace Authentication.EventStore
             };
 
             _eventDb.Save(loggedEvent);
+        }
+
+        private AuthenticationEvent Map(LoggedEvent loggedEvent)
+        {
+            var authenticationEvent = new AuthenticationEvent();
+            var whatHappened = (EventAction)Enum.Parse(typeof(EventAction), loggedEvent.Action);
+            switch (whatHappened)
+            {
+                case EventAction.UserRegistered:
+                    authenticationEvent = JsonConvert.DeserializeObject<UserRegisteredEvent>(loggedEvent.Data);
+                    break;
+                case EventAction.EmailUniqueValidationFailed:
+                    authenticationEvent = JsonConvert.DeserializeObject<EmailUniqueValidationFailedEvent>(loggedEvent.Data);
+                    break;
+
+                case EventAction.EmailVerified:
+                    authenticationEvent = JsonConvert.DeserializeObject<EmailVerifiedEvent>(loggedEvent.Data);
+                    break;
+
+                case EventAction.EmailChangeRequested:
+                    authenticationEvent = JsonConvert.DeserializeObject<EmailChangeRequestedEvent>(loggedEvent.Data);
+                    break;
+
+            }
+
+            return authenticationEvent;
         }
     }
 }
