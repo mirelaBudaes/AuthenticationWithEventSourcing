@@ -11,6 +11,7 @@ namespace Authentication.Command
     public interface IEventSourceManager
     {
         void Log(EventAction whatHappened, string emailAddresss);
+        void Log(EventAction whatHappened, string emailAddresss, Guid userId);
     }
 
     internal class EventSourceManager : IEventSourceManager
@@ -39,7 +40,8 @@ namespace Authentication.Command
             //// Sync up with read model
             var user = Replay(userId);
 
-            if (whatHappened != EventAction.EmailUniqueValidationFailed)
+            if (whatHappened != EventAction.EmailUniqueValidationFailed
+            && whatHappened != EventAction.EmailChangeRequested)
             {
                 _userSyncronizer.Save(user);
             }
@@ -66,15 +68,19 @@ namespace Authentication.Command
                         break;
                     case EventAction.EmailUniqueValidationFailed:
                         break;
-                    //case EventAction.EmailVerified:
-                    //    user = new User(e.UserId, e.UserInfo.Email, e.UserInfo.EmailIsVerified);
-                    //    user.LastUpdatedDate = e.TimeStamp;
-                    //    break;
-                    //case EventAction.EmailChanged:
-                    //    user = new User(e.UserId, e.UserInfo.Email, false);
-                    //    user.LastUpdatedDate = e.TimeStamp;
-                    //    break;
-                       
+                    case EventAction.EmailVerified:
+                        var emailVerifiedEvent = e as EmailVerifiedEvent;
+                        user = new User(e.UserId, emailVerifiedEvent.UserInfo.Email, emailVerifiedEvent.UserInfo.EmailIsVerified);
+                        user.LastUpdatedDate = e.TimeStamp;
+                        break;
+                    case EventAction.EmailChangeRequested:
+                        //We shouldn't change the user yet, since email address is not confirmed
+
+                        //var emailchangeRequestedEvent = e as EmailChangeRequestedEvent;
+                        //user = new User(e.UserId, emailchangeRequestedEvent.NewEmailAddress, false);
+                        //user.LastUpdatedDate = e.TimeStamp;
+                        break;
+
                 }
             }
             return user;

@@ -33,6 +33,27 @@ namespace Authentication.Command
                     };
                     return validationFailedEvent;
 
+                case EventAction.EmailVerified:
+                    return new EmailVerifiedEvent()
+                    {
+                        EventAction = eventOccurred.ToString(),
+                        UserId = userId,
+                        UserInfo = new EventUserInfo()
+                        {
+                            Email = emailAddresss,
+                            UserId = userId,
+                            EmailIsVerified = true
+                        }
+                    };
+
+                case EventAction.EmailChangeRequested:
+                    return new EmailChangeRequestedEvent()
+                    {
+                        EventAction = eventOccurred.ToString(),
+                        UserId = userId,
+                        NewEmailAddress = emailAddresss
+                    };
+
                 default:
                     return null;
             }

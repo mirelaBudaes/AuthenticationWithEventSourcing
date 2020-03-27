@@ -38,6 +38,14 @@ namespace Authentication.EventStore
                     authenticationEvent.UserId = loggedEvent.AggregateId;
                     break;
 
+                case EventAction.EmailChangeRequested:
+                    authenticationEvent = JsonConvert.DeserializeObject<EmailChangeRequestedEvent>(loggedEvent.Data);
+                    //authenticationEvent.Id = loggedEvent.Id;
+                    //authenticationEvent.EventAction = loggedEvent.Action;
+                    //authenticationEvent.TimeStamp = loggedEvent.TimeStamp;
+                    //authenticationEvent.UserId = loggedEvent.AggregateId;
+                    break;
+
             }
 
             return authenticationEvent;

@@ -15,6 +15,8 @@ namespace Authentication.Library
     {
         void RegisterUser(string emailAddress);
 
+        void RequestChangeEmail(Guid userId, string newEmailAddress);
+
         IList<LoggedEvent> GetLastEvents(int topX);
 
         IList<User> GetLastUpdatedUsers(int topX);
@@ -53,6 +55,22 @@ namespace Authentication.Library
             }
 
             _eventSourceManager.Log(EventAction.UserRegistered, emailAddress);
+
+
+            //var registerUserCommand = new RegisterUserCommand();
+        }
+
+        public void RequestChangeEmail(Guid userId, string newEmailAddress)
+        {
+            if (_userRepository.UserExists(newEmailAddress))
+            {
+                //todo: create an event here also
+                _eventSourceManager.Log(EventAction.EmailUniqueValidationFailed, newEmailAddress);
+
+                throw new EmailExistsException();
+            }
+
+            _eventSourceManager.Log(EventAction.EmailChangeRequested, newEmailAddress, userId);
 
 
             //var registerUserCommand = new RegisterUserCommand();

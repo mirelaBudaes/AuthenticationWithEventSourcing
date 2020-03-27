@@ -6,6 +6,7 @@
         EmailUniqueValidationFailed,
         EmailVerified,
         EmailChanged,
+        EmailChangeRequested,
         UserDeleted
     }
 }

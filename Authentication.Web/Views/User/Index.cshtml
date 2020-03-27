@@ -5,7 +5,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Users</h1>
+<h1>@Model.StoredUser.Email</h1>
+
+@using (Html.BeginForm("ChangeEmail", "User", FormMethod.Post))
+{
+    if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+    {
+        <red>@ViewBag.ErrorMessage</red>
+    }
+    <text> Change email address </text>
+    @Html.TextBox("EmailAddress", null, new { @class = "form-control", placeholder = "enter new email address" })
+
+    @Html.Hidden("userId", "@Model.StoredUser.Email")
+
+    <input type="submit" value="Change" />
+}
+
+
+
+<h2>User info</h2>
+<ul>
+    <li>Email: @Model.StoredUser.Email</li>
+    <li>Email is verified: @Model.StoredUser.EmailIsVerified</li>
+    <li>Created date: @Model.StoredUser.CreatedDate</li>
+    <li>Last updated date: @Model.StoredUser.LastUpdatedDate</li>
+</ul>
 
 <h2>History</h2>
 <!--Yes, I know it's very oldskool to use tables, but the purpose of the exercise was not html-->
@@ -28,14 +52,6 @@
         </tr>
     }
 </table>
-
-<h2>User info</h2>
-<ul>
-    <li>Email: @Model.StoredUser.Email</li>
-    <li>Email is verified: @Model.StoredUser.EmailIsVerified</li>
-    <li>Created date: @Model.StoredUser.CreatedDate</li>
-    <li>Last updated date: @Model.StoredUser.LastUpdatedDate</li>
-</ul>
 
 
 

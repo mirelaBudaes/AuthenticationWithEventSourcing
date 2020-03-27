@@ -4,6 +4,7 @@ using Authentication.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using Authentication.Library.Exceptions;
 
 namespace Authentication.Web.Controllers
 {
@@ -17,6 +18,7 @@ namespace Authentication.Web.Controllers
             _authenticationService = authenticationService;
             _usersViewModelMapper = usersViewModelMapper;
         }
+
         public IActionResult Index(string userId)
         {
             Guid userGuid;
@@ -34,6 +36,28 @@ namespace Authentication.Web.Controllers
             }
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeEmail(string emailAddress, string userId)
+        {
+            //todo: email address validation
+
+            Guid userGuid;
+            Guid.TryParse(userId, out userGuid);
+
+            try
+            {
+                _authenticationService.RequestChangeEmail(userGuid, emailAddress);
+            }
+            catch (EmailExistsException)
+            {
+                ViewBag.ErrorMessage = $"User {emailAddress} already exists";
+                
+                return RedirectToAction("Index", new { userId = userId });
+            }
+
+            return RedirectToAction("Index", "User", new { userId = userId });
         }
     }
 }
