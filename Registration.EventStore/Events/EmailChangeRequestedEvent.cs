@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.EventStore.Models;
+using Authentication.Infrastructure;
 
 namespace Authentication.EventStore.Events
 {
@@ -9,7 +10,7 @@ namespace Authentication.EventStore.Events
     {
         public EmailChangeRequestedEvent()
         {
-            this.EventAction = Authentication.EventStore.Models.EventAction.EmailChangeRequested.ToString();
+            this.EventActionName = Authentication.EventStore.Models.EventAction.EmailChangeRequested.ToString();
         }
 
         public string NewEmailAddress { get; set; }

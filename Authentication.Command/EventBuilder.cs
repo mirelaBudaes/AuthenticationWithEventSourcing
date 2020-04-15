@@ -1,6 +1,7 @@
 ﻿using System;
 using Authentication.EventStore.Events;
 using Authentication.EventStore.Models;
+using Authentication.Infrastructure;
 
 namespace Authentication.Command
 {
@@ -13,7 +14,7 @@ namespace Authentication.Command
                 case EventAction.UserRegistered:
                     var authenticationEvent = new UserRegisteredEvent()
                     {
-                        EventAction = eventOccurred.ToString(),
+                        EventActionName = eventOccurred.ToString(),
                         UserId = userId,
                         UserInfo = new EventUserInfo()
                         {
@@ -27,7 +28,7 @@ namespace Authentication.Command
                 case EventAction.EmailUniqueValidationFailed:
                     var validationFailedEvent = new EmailUniqueValidationFailedEvent()
                     {
-                        EventAction = eventOccurred.ToString(),
+                        EventActionName = eventOccurred.ToString(),
                         UserId = userId,
                         Email = emailAddresss
                     };
@@ -36,7 +37,7 @@ namespace Authentication.Command
                 case EventAction.EmailVerified:
                     return new EmailVerifiedEvent()
                     {
-                        EventAction = eventOccurred.ToString(),
+                        EventActionName = eventOccurred.ToString(),
                         UserId = userId,
                         UserInfo = new EventUserInfo()
                         {
@@ -49,7 +50,7 @@ namespace Authentication.Command
                 case EventAction.EmailChangeRequested:
                     return new EmailChangeRequestedEvent()
                     {
-                        EventAction = eventOccurred.ToString(),
+                        EventActionName = eventOccurred.ToString(),
                         UserId = userId,
                         NewEmailAddress = emailAddresss
                     };

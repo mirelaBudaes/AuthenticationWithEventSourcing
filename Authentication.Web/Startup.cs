@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Authentication.Command;
+using Authentication.EventStore;
 using Authentication.EventStore.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +25,8 @@ namespace Authentication.Web
 
         public IConfiguration Configuration { get; }
 
+        //public  IBus Bus { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,6 +35,7 @@ namespace Authentication.Web
             services.AddEventStoreLibrary();
 
             services.AddTransient<UsersViewModelMapper>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

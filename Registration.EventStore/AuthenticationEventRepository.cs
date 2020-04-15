@@ -4,6 +4,7 @@ using System.Linq;
 using Authentication.EventStore.Data;
 using Authentication.EventStore.Events;
 using Authentication.EventStore.Models;
+using Authentication.Infrastructure;
 using Newtonsoft.Json;
 
 namespace Authentication.EventStore
@@ -28,7 +29,7 @@ namespace Authentication.EventStore
 
             var loggedEvent = new LoggedEvent()
             {
-                Action = authenticationEvent.EventAction,
+                Action = authenticationEvent.EventActionName,
                 AggregateId = authenticationEvent.UserId,
                 Data = Newtonsoft.Json.JsonConvert.SerializeObject(authenticationEvent),
                 TimeStamp = authenticationEvent.TimeStamp

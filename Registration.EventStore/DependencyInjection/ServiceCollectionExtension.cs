@@ -1,5 +1,6 @@
 ﻿using Authentication.EventStore.Configuration;
 using Authentication.EventStore.Data;
+using Authentication.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Authentication.EventStore.DependencyInjection

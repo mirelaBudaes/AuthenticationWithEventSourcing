@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.EventStore", "Registration.EventStore\Authentication.EventStore.csproj", "{369DFBFD-4904-4695-8D63-FBEC0867B4CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.EventStore", "Registration.EventStore\Authentication.EventStore.csproj", "{369DFBFD-4904-4695-8D63-FBEC0867B4CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Library", "AuthenticationLibrary\Authentication.Library.csproj", "{4F48C038-0468-419B-8AA6-EBA623B19B47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Library", "AuthenticationLibrary\Authentication.Library.csproj", "{4F48C038-0468-419B-8AA6-EBA623B19B47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Web", "Authentication.Web\Authentication.Web.csproj", "{BAB7B94A-65B3-45B7-BA25-CD84B0115A0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Web", "Authentication.Web\Authentication.Web.csproj", "{BAB7B94A-65B3-45B7-BA25-CD84B0115A0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Query", "Authentication.Query\Authentication.Query.csproj", "{55FC9FE5-C6F8-4795-822B-7AFEF59F9343}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Query", "Authentication.Query\Authentication.Query.csproj", "{55FC9FE5-C6F8-4795-822B-7AFEF59F9343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Command", "Authentication.Command\Authentication.Command.csproj", "{69FED77E-6B6E-4C3D-92EB-CE6E673C36E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Command", "Authentication.Command\Authentication.Command.csproj", "{69FED77E-6B6E-4C3D-92EB-CE6E673C36E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.SqlStore", "Authentication.SqlStore\Authentication.SqlStore.csproj", "{68358FED-4693-43BD-BD82-3DBCBE6E8CF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.SqlStore", "Authentication.SqlStore\Authentication.SqlStore.csproj", "{68358FED-4693-43BD-BD82-3DBCBE6E8CF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Infrastructure", "Authentication.Infrastructure\Authentication.Infrastructure.csproj", "{AF73BC0C-7DE0-47A3-B3BC-6A21F81712CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{68358FED-4693-43BD-BD82-3DBCBE6E8CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68358FED-4693-43BD-BD82-3DBCBE6E8CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68358FED-4693-43BD-BD82-3DBCBE6E8CF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF73BC0C-7DE0-47A3-B3BC-6A21F81712CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF73BC0C-7DE0-47A3-B3BC-6A21F81712CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF73BC0C-7DE0-47A3-B3BC-6A21F81712CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF73BC0C-7DE0-47A3-B3BC-6A21F81712CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

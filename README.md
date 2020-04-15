@@ -15,7 +15,7 @@ If the email address is already in the DB, we get an event saved and an error me
 In order to test, I added the 2 databases. Used a local sql db and Dapper as an ORM (worked with it a lot in my last job).
 As NoSql I used LiteDB as it had a very quick start. Each of them is accessed through a separate project (EventStore and SqlStore).
 The NoSql db stores the events. Events can only be added.
-The Sql stores the current version of the user, no history included.
+The Sql stores the current version of the user, no history included.sda
 
 
 # Er moet een dotnet library worden gemaakt welke zowel gebruikt kan 
@@ -44,12 +44,21 @@ Dat is IAuthenticationEventRepository and AuthenticationEventRepository implemen
 # - gebruiker kunnen aanmaken op basis van e-mailadres;
 AuthenticationService.RegisterUser(string emailAddress). 
 Run the website, go to Register link.
+There is a RegisterSaga that will save the event, save the User in the DB. When that event is raised, the EmailHandler is waiting for it.
 # - gebruiker moet zijn e-mailadres kunnen wijzigen, een wijziging van 
 # een e-mailadres kan echter niet meteen gebeuren omdat deze eerst geverifieerd moet worden;
 Run the website, click on a user. You'll be taken to User page.
 AuthenticationService.RequestChangeEmail(Guid userId, string newEmailAddress) will create the EmailChangeRequested event. 
 The Sql data doesn't change, because the email has to be verified first.
 When the email will be verified, we can raise the EmailChanged event (this is not done).
+
+Here a sage would also be useful.
+The EmailChangeRequested command is created in the AuthenticationService.
+This bus will deliver it to a ChangeEmailSaga.
+This will save a EmailChangeRequested event. 
+This will raise this event and an EmailHandler will send the email.
+When user verifies the email, the controller action will call in turn the bus with the EmailVerified command.
+This will get the previous event, get the user and change the sql db data.
 
 # - gebruiker kunnen verwijderen, eventuele gegevens die we van de gebruiker hebben 
 # moeten na 30 dagen binnen het systeem worden verwijderd.
